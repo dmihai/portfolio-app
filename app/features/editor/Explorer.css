@@ -1,0 +1,17 @@
+.images {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.panel {
+  display: flex;
+}
+
+.editor {
+  width: 200px;
+}
+
+.link {
+  cursor: pointer;
+}

@@ -1,0 +1,15 @@
+.image {
+  width: 180px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.image--selected {
+  background-color: aquamarine;
+}
+
+.image img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+}
