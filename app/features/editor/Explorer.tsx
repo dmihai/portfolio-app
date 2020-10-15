@@ -5,6 +5,8 @@ import styles from './Explorer.css';
 import Image from './Image';
 import ImageEdit from './ImageEdit';
 import { imageInit } from '../../constants/mocks';
+import ImageContainer from './ImageContainer';
+import { IImage } from '../../types/interfaces';
 
 let lastSelectedImage = '';
 
@@ -68,6 +70,10 @@ const Explorer = () => {
   const selectAll = (select: boolean) =>
     setImages(images.map((image) => ({ ...image, selected: select })));
 
+  const addImages = (newImages: IImage[]) => {
+    setImages([...images, ...newImages]);
+  };
+
   const imagesRender = images.map((image) => (
     <Image
       key={image.id}
@@ -102,7 +108,7 @@ const Explorer = () => {
         </button>
       </div>
       <div className={styles.panel}>
-        <div className={styles.images}>{imagesRender}</div>
+        <ImageContainer addImages={addImages}>{imagesRender}</ImageContainer>
         <div className={styles.editor}>
           <ImageEdit images={selectedImages} />
         </div>

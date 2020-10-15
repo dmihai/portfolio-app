@@ -1,9 +1,3 @@
-.images {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .panel {
   display: flex;
 }
