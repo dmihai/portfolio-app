@@ -1,7 +1,7 @@
-import { IImage } from '../types/interfaces';
+import { IPhoto } from '../types/interfaces';
 
 // eslint-disable-next-line import/prefer-default-export
-export const imageInit: IImage[] = [
+export const photoInit: IPhoto[] = [
   {
     id: 'p01',
     path:

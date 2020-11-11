@@ -1,25 +1,25 @@
 import React from 'react';
 import { DropTargetMonitor, useDrop } from 'react-dnd';
 import { NativeTypes } from 'react-dnd-html5-backend';
-import styles from './ImageContainer.css';
-import { IImage } from '../../types/interfaces';
+import styles from './PhotoContainer.css';
+import { IPhoto } from '../../types/interfaces';
 
-export interface ImageContainerProps {
-  addImages: (newImages: IImage[]) => void;
+export interface PhotoContainerProps {
+  addPhotos: (newPhotos: IPhoto[]) => void;
   children: JSX.Element[];
 }
 
-const ImageContainer = ({ addImages, children }: ImageContainerProps) => {
+const PhotoContainer = ({ addPhotos, children }: PhotoContainerProps) => {
   const handleFileDrop = (monitor: DropTargetMonitor) => {
     if (monitor) {
       const { files } = monitor.getItem();
-      const newImages: IImage[] = files.map((file: any) => ({
+      const newPhotos: IPhoto[] = files.map((file: any) => ({
         id: file.size,
         path: file.path,
         name: file.name,
         selected: false,
       }));
-      addImages(newImages);
+      addPhotos(newPhotos);
     }
   };
 
@@ -35,10 +35,10 @@ const ImageContainer = ({ addImages, children }: ImageContainerProps) => {
   });
 
   return (
-    <div ref={drop} className={styles.images}>
+    <div ref={drop} className={styles.photos}>
       {children}
     </div>
   );
 };
 
-export default ImageContainer;
+export default PhotoContainer;

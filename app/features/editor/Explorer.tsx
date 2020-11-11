@@ -2,89 +2,89 @@
 import React, { useState } from 'react';
 import update from 'immutability-helper';
 import styles from './Explorer.css';
-import Image from './Image';
-import ImageEdit from './ImageEdit';
-import { imageInit } from '../../constants/mocks';
-import ImageContainer from './ImageContainer';
-import { IImage } from '../../types/interfaces';
+import Photo from './Photo';
+import PhotoEdit from './PhotoEdit';
+import { photoInit } from '../../constants/mocks';
+import PhotoContainer from './PhotoContainer';
+import { IPhoto } from '../../types/interfaces';
 
-let lastSelectedImage = '';
+let lastSelectedPhoto = '';
 
 const Explorer = () => {
-  const [images, setImages] = useState(imageInit);
+  const [photos, setPhotos] = useState(photoInit);
 
-  const findImage = (id: string) => {
-    const index = images.findIndex((image) => image.id === id);
+  const findPhoto = (id: string) => {
+    const index = photos.findIndex((photo) => photo.id === id);
     return {
-      image: images[index],
+      photo: photos[index],
       index,
     };
   };
 
-  const moveImage = (id: string, atIndex: number) => {
-    const { image, index } = findImage(id);
-    if (image) {
-      setImages(
-        update(images, {
+  const movePhoto = (id: string, atIndex: number) => {
+    const { photo, index } = findPhoto(id);
+    if (photo) {
+      setPhotos(
+        update(photos, {
           $splice: [
             [index, 1],
-            [atIndex, 0, image],
+            [atIndex, 0, photo],
           ],
         })
       );
     }
   };
 
-  const selectImage = (event: React.MouseEvent, id: string) => {
+  const selectPhoto = (event: React.MouseEvent, id: string) => {
     if (event.ctrlKey) {
-      setImages(
-        images.map((image) => ({
-          ...image,
-          selected: id === image.id ? !image.selected : image.selected,
+      setPhotos(
+        photos.map((photo) => ({
+          ...photo,
+          selected: id === photo.id ? !photo.selected : photo.selected,
         }))
       );
-      lastSelectedImage = id;
-    } else if (event.shiftKey && lastSelectedImage !== '') {
-      const selection1 = images.findIndex((image) => image.id === id);
-      const selection2 = images.findIndex(
-        (image) => image.id === lastSelectedImage
+      lastSelectedPhoto = id;
+    } else if (event.shiftKey && lastSelectedPhoto !== '') {
+      const selection1 = photos.findIndex((photo) => photo.id === id);
+      const selection2 = photos.findIndex(
+        (photo) => photo.id === lastSelectedPhoto
       );
       if (selection1 >= 0 && selection2 >= 0) {
         const startSelection = Math.min(selection1, selection2);
         const endSelection = Math.max(selection1, selection2);
-        setImages(
-          images.map((image, index) => ({
-            ...image,
+        setPhotos(
+          photos.map((photo, index) => ({
+            ...photo,
             selected: index >= startSelection && index <= endSelection,
           }))
         );
       }
     } else {
-      setImages(
-        images.map((image) => ({ ...image, selected: id === image.id }))
+      setPhotos(
+        photos.map((photo) => ({ ...photo, selected: id === photo.id }))
       );
-      lastSelectedImage = id;
+      lastSelectedPhoto = id;
     }
   };
 
   const selectAll = (select: boolean) =>
-    setImages(images.map((image) => ({ ...image, selected: select })));
+    setPhotos(photos.map((photo) => ({ ...photo, selected: select })));
 
-  const addImages = (newImages: IImage[]) => {
-    setImages([...images, ...newImages]);
+  const addPhotos = (newPhotos: IPhoto[]) => {
+    setPhotos([...photos, ...newPhotos]);
   };
 
-  const imagesRender = images.map((image) => (
-    <Image
-      key={image.id}
-      image={image}
-      selectImage={selectImage}
-      findImage={findImage}
-      moveImage={moveImage}
+  const photosRender = photos.map((photo) => (
+    <Photo
+      key={photo.id}
+      photo={photo}
+      selectPhoto={selectPhoto}
+      findPhoto={findPhoto}
+      movePhoto={movePhoto}
     />
   ));
 
-  const selectedImages = images.filter((image) => image.selected);
+  const selectedPhotos = photos.filter((photo) => photo.selected);
 
   return (
     <div>
@@ -108,9 +108,9 @@ const Explorer = () => {
         </button>
       </div>
       <div className={styles.panel}>
-        <ImageContainer addImages={addImages}>{imagesRender}</ImageContainer>
+        <PhotoContainer addPhotos={addPhotos}>{photosRender}</PhotoContainer>
         <div className={styles.editor}>
-          <ImageEdit images={selectedImages} />
+          <PhotoEdit photos={selectedPhotos} />
         </div>
       </div>
     </div>
