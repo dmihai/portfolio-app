@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import fs from 'fs';
 import update from 'immutability-helper';
 import styles from './Explorer.css';
 import Photo from './Photo';
@@ -12,6 +13,17 @@ let lastSelectedPhoto = '';
 
 const Explorer = () => {
   const [photos, setPhotos] = useState(photoInit);
+
+  useEffect(() => {
+    const photosContent = JSON.stringify(photos, null, 2);
+    fs.writeFile('./content.json', photosContent, (err) => {
+      if (err) {
+        console.error(err);
+        throw err;
+      }
+      console.log('Saved!');
+    });
+  }, [photos]);
 
   const findPhoto = (id: string) => {
     const index = photos.findIndex((photo) => photo.id === id);
